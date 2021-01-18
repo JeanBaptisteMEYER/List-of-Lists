@@ -1,13 +1,13 @@
-package com.jbm.mistplaychallenge.ui.home
+package com.jbm.mistplaychallenge.ui.bonus
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class BonusViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "This is Bonus Fragment"
     }
     val text: LiveData<String> = _text
 }
