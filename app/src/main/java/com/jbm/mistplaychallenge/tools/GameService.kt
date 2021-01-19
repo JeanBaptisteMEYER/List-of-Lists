@@ -4,11 +4,8 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import com.jbm.mistplaychallenge.R
-import com.jbm.mistplaychallenge.ui.games.GamesFragment
 import org.json.JSONArray
-import org.json.JSONObject
 
 class GameService : Service() {
 

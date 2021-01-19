@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.games.GamesFragment">
+    tools:context=".ui.GamesFragment">
 
-    <HorizontalScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,12 +15,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/game_parent_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/game_card_area">
+            android:orientation="vertical">
         </LinearLayout>
 
-    </HorizontalScrollView>
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

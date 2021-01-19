@@ -1,4 +1,4 @@
-package com.jbm.mistplaychallenge.ui.games
+package com.jbm.mistplaychallenge.ui
 
 import android.content.*
 import android.os.Bundle
@@ -24,7 +24,7 @@ class GamesFragment : Fragment() {
     private var mGameServiceInstance: GameService? = null
     private var mIntentFilter = IntentFilter()
 
-    private lateinit var ll: LinearLayout
+    private lateinit var parentLayout: LinearLayout
 
     @Override
     override fun onCreateView(
@@ -35,7 +35,7 @@ class GamesFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_games, container, false)
 
         //get layout for future updates
-        ll = root.findViewById(R.id.game_card_area)
+        parentLayout = root.findViewById(R.id.game_parent_list)
 
         //Start Game Service, bind it to our Service Connection class and register our broadcast Receiver
         mIntentFilter.addAction(Constants().mBroadcastGameListUpdate)
@@ -78,15 +78,57 @@ class GamesFragment : Fragment() {
 
     // this function will update our UI with the new game list
     fun updateUI() {
-
-        Log.d(TAG, "Updating UI with new game list")
-
+        // get list of game from Service
         val gl = mGameServiceInstance?.getGameList()
+        var categories: MutableList<String> = mutableListOf()
 
+        //create a list of categories availables
         for (i in 1..gl!!.size.minus(1)) {
-            val gameCardLayout: View = layoutInflater.inflate(R.layout.game_card, ll, false)
-            gameCardLayout.findViewById<TextView>(R.id.game_card_title).text = gl[i].title
+            if (!categories.contains(gl[i].category)) {
+                categories.add(gl[i].category)
+            }
+        }
 
+        Log.d(TAG, "Categories are " + categories.toString())
+
+        for (i in 0..categories.size.minus(1)) {
+            val listLayout: View =
+                layoutInflater.inflate(R.layout.games_horizontal_list, parentLayout, false)
+
+            listLayout.findViewById<TextView>(R.id.game_list_category).text = categories[i]
+
+            val linearLayout2 = listLayout.findViewById<LinearLayout>(R.id.game_card_area)
+
+            for (j in gl) {
+
+                if (j.category.equals(categories[i])) {
+                    val gameCardLayout: View =
+                        layoutInflater.inflate(R.layout.game_card, linearLayout2, false)
+
+                    //set title
+                    gameCardLayout.findViewById<TextView>(R.id.game_card_title).text = j.title
+
+                    //Loading Image from URL
+                    Picasso.get()
+                        .load(j.img)
+                        .resize(200, 250)
+                        .centerCrop()
+                        .into(gameCardLayout.findViewById<ImageView>(R.id.game_card_img))
+
+                    linearLayout2.addView(gameCardLayout)
+                }
+            }
+
+            parentLayout.addView(listLayout)
+        }
+
+        /*
+        for (i in 1..gl!!.size.minus(1)) {
+
+            val gameCardLayout: View = layoutInflater.inflate(R.layout.game_card, listLayout.findViewById(R.id.game_list_category), false)
+
+            //set title
+            gameCardLayout.findViewById<TextView>(R.id.game_card_title).text = gl[i].title
 
             //Loading Image from URL
             Picasso.get()
@@ -94,16 +136,20 @@ class GamesFragment : Fragment() {
                 .resize(200, 250)
                 .centerCrop()
                 .into(gameCardLayout.findViewById<ImageView>(R.id.game_card_img))
-            ll.addView(gameCardLayout)
+
+            listLayout.findViewById<LinearLayout>(R.id.game_list_category).addView(gameCardLayout)
         }
+        parentLayout.addView(listLayout)
+         */
+
+
+
     }
 
     //braodcast reveiver for communication between Services and this fragment
     private val mBraodcastReceiver = object : BroadcastReceiver() {
         @Override
         override fun onReceive(p0: Context?, p1: Intent?) {
-            //Log.d(TAG, "onReceive " + p1?.action)
-
             when(p1?.action) {
                 Constants().mBroadcastGameListUpdate -> updateUI()
             }

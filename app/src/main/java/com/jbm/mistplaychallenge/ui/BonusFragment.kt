@@ -1,4 +1,4 @@
-package com.jbm.mistplaychallenge.ui.bonus
+package com.jbm.mistplaychallenge.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,20 +12,13 @@ import com.jbm.mistplaychallenge.R
 
 class BonusFragment : Fragment() {
 
-    private lateinit var bonusViewModel: BonusViewModel
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        bonusViewModel =
-                ViewModelProvider(this).get(BonusViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_bonus, container, false)
-        val textView: TextView = root.findViewById(R.id.text_bonus)
-        bonusViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        root.findViewById<TextView>(R.id.text_bonus).text = getString(R.string.title_bonus)
         return root
     }
 }
