@@ -64,7 +64,7 @@ class GamesFragment : Fragment() {
     //it will get called when the service notifyed this fragment that the game list have been updated
     fun updateUI() {
         // get list of game from Service
-        val gl = mGameServiceInstance?.getGameList()
+        val gl = mGameServiceInstance?.mGameList
         var categories: MutableList<String> = mutableListOf()
 
         //create a list of categories

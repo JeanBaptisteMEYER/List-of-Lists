@@ -9,7 +9,6 @@ import org.json.JSONArray
 
 class GameService : Service() {
 
-    var mGameList: MutableList<Game> = mutableListOf()
     val TAG = "tag.jbm." + GameService::class.java.simpleName
 
     val mBinder: IBinder = MyBinder()
@@ -19,13 +18,13 @@ class GameService : Service() {
             get() = this@GameService
     }
 
+    //List of Game that'll be populated from a JSON file
+    var mGameList: MutableList<Game> = mutableListOf()
+
+
     @Override
     override fun onBind(intent: Intent): IBinder {
         return mBinder
-    }
-
-    fun getGameList(): MutableList<Game> {
-        return mGameList
     }
 
     // this fun get the data from the JSON file in res/raw, parse it and build the list of game
@@ -38,6 +37,7 @@ class GameService : Service() {
             mGameList.clear()
         }
 
+        //Parse JSON object into a list of Game object
         for (i in 0..jsonArray.length()-1) {
             val listObject = jsonArray.getJSONObject(i)
 
@@ -58,8 +58,5 @@ class GameService : Service() {
 
         // List of game as been parse. Lets broadcast to the fragment for it to update its UI with new game list
         this.sendBroadcast(Intent().setAction(Constants().mBroadcastGameListUpdate))
-
-        //Log.d(TAG, mGameList.toString())
     }
-
 }
