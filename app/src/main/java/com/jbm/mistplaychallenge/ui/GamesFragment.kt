@@ -38,6 +38,7 @@ class GamesFragment : Fragment() {
         parentLayout = root.findViewById(R.id.game_parent_list)
 
         //Start Game Service, bind it to our Service Connection class and register our broadcast Receiver
+        //This will allowed us to have the service and the fragment communicate in an asynchronous way
         mIntentFilter.addAction(Constants().mBroadcastGameListUpdate)
         activity?.registerReceiver(this.mBraodcastReceiver, mIntentFilter)
 
@@ -50,6 +51,7 @@ class GamesFragment : Fragment() {
 
     @Override
     override fun onDestroy() {
+        //onDestroy, so must unbind and unregister our Service
         activity?.unbindService(mServiceConnection)
         activity?.unregisterReceiver(mBraodcastReceiver)
 
@@ -58,7 +60,61 @@ class GamesFragment : Fragment() {
 
     /*************************************/
 
-    //This class will handle connection between our service and this fragment
+    // this function will update our UI with the new game list
+    //it will get called when the service notifyed this fragment that the game list have been updated
+    fun updateUI() {
+        // get list of game from Service
+        val gl = mGameServiceInstance?.getGameList()
+        var categories: MutableList<String> = mutableListOf()
+
+        //create a list of categories
+        for (i in 1..gl!!.size.minus(1)) {
+            if (!categories.contains(gl[i].category)) {
+                categories.add(gl[i].category)
+            }
+        }
+
+        //then for each category...
+        for (i in 0..categories.size.minus(1)) {
+
+            //...inflate a category view (layout/game_category_list)...
+            val listLayout: View =
+                layoutInflater.inflate(R.layout.game_category_list, parentLayout, false)
+
+            //name the category with its given title
+            listLayout.findViewById<TextView>(R.id.game_list_category_title).text = categories[i]
+
+            //get the view into which we will inflate our game card
+            val cardAreaLayout = listLayout.findViewById<LinearLayout>(R.id.game_card_area)
+
+            //for each game in the gamelist
+            for (g in gl) {
+
+                //if it is part of the category add its card to the view=
+                if (g.category.equals(categories[i])) {
+                    val gameCardLayout: View =
+                        layoutInflater.inflate(R.layout.game_card, cardAreaLayout, false)
+
+                    //set game title
+                    gameCardLayout.findViewById<TextView>(R.id.game_card_title).text = g.title
+
+                    //Loading Image from URL (this is done with the Picasso lib)
+                    Picasso.get()
+                        .load(g.img)
+                        .resize(200, 250)
+                        .centerCrop()
+                        .into(gameCardLayout.findViewById<ImageView>(R.id.game_card_img))
+
+                    //add the game card to the Game Category scrolling List view
+                    cardAreaLayout.addView(gameCardLayout)
+                }
+            }
+
+            parentLayout.addView(listLayout)
+        }
+    }
+
+    //This class will handle the connection callback between our service and this fragment
     private val mServiceConnection = object : ServiceConnection {
         @Override
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -76,77 +132,7 @@ class GamesFragment : Fragment() {
         }
     }
 
-    // this function will update our UI with the new game list
-    fun updateUI() {
-        // get list of game from Service
-        val gl = mGameServiceInstance?.getGameList()
-        var categories: MutableList<String> = mutableListOf()
-
-        //create a list of categories availables
-        for (i in 1..gl!!.size.minus(1)) {
-            if (!categories.contains(gl[i].category)) {
-                categories.add(gl[i].category)
-            }
-        }
-
-        Log.d(TAG, "Categories are " + categories.toString())
-
-        for (i in 0..categories.size.minus(1)) {
-            val listLayout: View =
-                layoutInflater.inflate(R.layout.games_horizontal_list, parentLayout, false)
-
-            listLayout.findViewById<TextView>(R.id.game_list_category).text = categories[i]
-
-            val linearLayout2 = listLayout.findViewById<LinearLayout>(R.id.game_card_area)
-
-            for (j in gl) {
-
-                if (j.category.equals(categories[i])) {
-                    val gameCardLayout: View =
-                        layoutInflater.inflate(R.layout.game_card, linearLayout2, false)
-
-                    //set title
-                    gameCardLayout.findViewById<TextView>(R.id.game_card_title).text = j.title
-
-                    //Loading Image from URL
-                    Picasso.get()
-                        .load(j.img)
-                        .resize(200, 250)
-                        .centerCrop()
-                        .into(gameCardLayout.findViewById<ImageView>(R.id.game_card_img))
-
-                    linearLayout2.addView(gameCardLayout)
-                }
-            }
-
-            parentLayout.addView(listLayout)
-        }
-
-        /*
-        for (i in 1..gl!!.size.minus(1)) {
-
-            val gameCardLayout: View = layoutInflater.inflate(R.layout.game_card, listLayout.findViewById(R.id.game_list_category), false)
-
-            //set title
-            gameCardLayout.findViewById<TextView>(R.id.game_card_title).text = gl[i].title
-
-            //Loading Image from URL
-            Picasso.get()
-                .load(gl[i].img)
-                .resize(200, 250)
-                .centerCrop()
-                .into(gameCardLayout.findViewById<ImageView>(R.id.game_card_img))
-
-            listLayout.findViewById<LinearLayout>(R.id.game_list_category).addView(gameCardLayout)
-        }
-        parentLayout.addView(listLayout)
-         */
-
-
-
-    }
-
-    //braodcast reveiver for communication between Services and this fragment
+    //broadcast receiver for communication between our Services and this fragment
     private val mBraodcastReceiver = object : BroadcastReceiver() {
         @Override
         override fun onReceive(p0: Context?, p1: Intent?) {
