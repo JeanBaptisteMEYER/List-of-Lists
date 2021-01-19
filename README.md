@@ -18,8 +18,9 @@ https://youtu.be/paBY7wweu2U
 
 Simple app that:
 1) Uses Fragments and Bottom navigation bar for the UI
-2) Loads a list of game from a JSON file stored in res/raw
-3) Dynamicly builds the UI base on the JSON file
-4) Uses ScrollViews for the scrolling features
-5) Uses the Picasso lib to handle the game's images download from the cloud
-6) Runs on API >23 (Android 6.0 and newer)
+2) Uses a Service for the background tasks like the JSON parsing
+3) Loads a list of game from a JSON file stored in res/raw
+4) Dynamicly builds the UI base on the JSON file
+5) Uses ScrollViews for the scrolling features
+6) Uses the Picasso lib to handle the game's images download from the cloud
+7) Runs on API >23 (Android 6.0 and newer)
