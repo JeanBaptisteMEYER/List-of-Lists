@@ -20,3 +20,4 @@ Simple app that:
 3) Dynamicly builds the UI base on the JSON file
 4) Uses ScrollViews for the scrolling features
 5) Uses the Picasso lib to handle the game's images download from the cloud
+6) Runs on API >23 (Android 6.0 and newer)
