@@ -1,7 +1,8 @@
 # Mistplay Android Challenge 2021
 Solution by Jean-Baptiste Meyer
 
-The Challenge: Create a vertical scrolling list of horizontally scrolling lists.
+# The Challenge:
+Create a vertical scrolling list of horizontally scrolling lists.
 Mistplay supports this UI for displaying the games in separate categories.
 
 The requirements for this mini project are to:
@@ -10,3 +11,12 @@ The requirements for this mini project are to:
 3) Incorporate the classes you build into a sample
 application. This sample application can use any design you choose.
 4) Well commented and formatted code.
+
+
+# The Solution
+Simple app :
+1) Using Fragments and Bottom navigation bar for the UI
+2) That load a list of game from a JSON file stored in res/raw
+3) That dynamicly build the UI base on the JSON file
+4) Use ScrollViews for the scrolling features
+5) Use the Picasso lib to handle the game's images download from the cloud
