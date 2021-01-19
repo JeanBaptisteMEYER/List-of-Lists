@@ -12,6 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MistplayChallenge">
+
+        <service
+            android:name=".tools.GameService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

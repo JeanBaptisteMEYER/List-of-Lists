@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class BonusViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is Bonus Fragment"
+        value = "Bonus View"
     }
     val text: LiveData<String> = _text
 }
