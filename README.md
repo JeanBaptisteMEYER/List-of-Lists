@@ -14,9 +14,9 @@ application. This sample application can use any design you choose.
 
 
 # The Solution
-Simple app :
-1) Using Fragments and Bottom navigation bar for the UI
-2) That load a list of game from a JSON file stored in res/raw
-3) That dynamicly build the UI base on the JSON file
-4) Use ScrollViews for the scrolling features
-5) Use the Picasso lib to handle the game's images download from the cloud
+Simple app that:
+1) Uses Fragments and Bottom navigation bar for the UI
+2) Loads a list of game from a JSON file stored in res/raw
+3) Dynamicly builds the UI base on the JSON file
+4) Uses ScrollViews for the scrolling features
+5) Uses the Picasso lib to handle the game's images download from the cloud
