@@ -1,4 +1,4 @@
-# mistplaychallenge2021
+# Mistplay Android Challenge 2021
 Solution by Jean-Baptiste Meyer
 
 The Challenge: Create a vertical scrolling list of horizontally scrolling lists.
