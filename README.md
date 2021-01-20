@@ -3,7 +3,6 @@ Solution by Jean-Baptiste Meyer
 
 # The Challenge
 Create a vertical scrolling list of horizontally scrolling lists.
-Mistplay supports this UI for displaying the games in separate categories.
 
 The requirements for this mini project are to:
 1) Build the functionality for the list of lists. Make sure to do this using Object-Oriented programming principles as well as design patterns.
