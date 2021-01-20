@@ -15,7 +15,7 @@ application. This sample application can use any design you choose.
 # The Solution
 https://youtu.be/paBY7wweu2U
 
-Simple app that:
+Simple Android app written in Kotlin that:
 1) Uses Fragments and Bottom navigation bar for the UI
 2) Uses a Service for the background tasks like the JSON parsing
 3) Loads a list of game from a JSON file stored in res/raw
